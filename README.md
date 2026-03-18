@@ -1,4 +1,4 @@
-# week8_blabla_dto
+# week8_blabla_MVVM
 
 A new Flutter project.
 
