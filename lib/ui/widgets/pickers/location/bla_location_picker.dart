@@ -1,66 +1,47 @@
-import 'package:blabla/services/location_service.dart';
+import 'package:blabla/data/repositories/location/location_repository.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
+import 'package:blabla/ui/widgets/pickers/view_model/bla_location_picker_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../model/ride/locations.dart';
-import '../../theme/theme.dart';
+import '../../../../model/ride/locations.dart';
+import '../../../theme/theme.dart';
 
 ///
 /// A  Location Picker is a view to pick a Location:
 ///
-class BlaLocationPicker extends StatefulWidget {
-  const BlaLocationPicker({super.key, required this.initLocation});
 
-  final Location? initLocation; // optional initial location
-
-  @override
-  State<BlaLocationPicker> createState() => _BlaLocationPickerState();
-}
-
-class _BlaLocationPickerState extends State<BlaLocationPicker> {
-  String currentSearchText = "";
-
-  void onTap(Location location) {
-    Navigator.pop<Location>(context, location);
-  }
-
-  void onBackTap() {
-    Navigator.pop(context);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initilize the search bar if any initial location
-    if (widget.initLocation != null) {
-      setState(() {
-        currentSearchText = widget.initLocation!.name;
-      });
-    }
-  }
-
-  void onSearchChanged(String search) {
-    setState(() {
-      currentSearchText = search;
-    });
-  }
-
-  List<Location> get filteredLocation {
-    if (currentSearchText.length < 2) {
-      return [];
-    }
-    return LocationsService.availableLocations
-        .where(
-          (location) => location.name.toUpperCase().contains(
-            currentSearchText.toUpperCase(),
-          ),
-        )
-        .toList();
-  }
+class BlaLocationPicker extends StatelessWidget {
+  final Location? initLocation;
+  const BlaLocationPicker({super.key, this.initLocation});
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => BlaLocationPickerViewModel(
+        locationRepository: context.read<LocationRepository>(),
+      ),
+      child: BlaLocationPickerContent(),
+    );
+  }
+}
+
+class BlaLocationPickerContent extends StatelessWidget {
+  final Location? initLocation;
+  const BlaLocationPickerContent({super.key, this.initLocation});
+
+  @override
+  Widget build(BuildContext context) {
+    BlaLocationPickerViewModel mv = context.watch<BlaLocationPickerViewModel>();
+
+    void onBackTap() {
+      Navigator.pop(context);
+    }
+
+    void onTap(Location location) {
+      Navigator.pop<Location>(context, location);
+    }
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -71,18 +52,18 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
         child: Column(
           children: [
             LocationSearchBar(
-              initSearch: currentSearchText,
-              onBackTap: onBackTap,
-              onSearchChanged: onSearchChanged,
+              initSearch: initLocation?.name ?? "", // if empty show ""
+              onBackTap: () => onBackTap(),
+              onSearchChanged: mv.onSearchChanged,
             ),
 
             SizedBox(height: 20),
 
             Expanded(
               child: ListView.builder(
-                itemCount: filteredLocation.length,
+                itemCount: mv.filteredLocation.length,
                 itemBuilder: (context, index) => LocationTile(
-                  location: filteredLocation[index],
+                  location: mv.filteredLocation[index],
                   onTap: onTap,
                 ),
               ),
