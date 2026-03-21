@@ -1,6 +1,6 @@
 import 'package:blabla/data/repositories/location/location_repository.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
-import 'package:blabla/ui/widgets/pickers/view_model/bla_location_picker_view_model.dart';
+import 'package:blabla/ui/widgets/view_model/bla_location_picker_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,11 +17,12 @@ class BlaLocationPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Add the provider for MVVM implementation
     return ChangeNotifierProvider(
       create: (context) => BlaLocationPickerViewModel(
         locationRepository: context.read<LocationRepository>(),
       ),
-      child: BlaLocationPickerContent(),
+      child: BlaLocationPickerContent(initLocation: initLocation),
     );
   }
 }
