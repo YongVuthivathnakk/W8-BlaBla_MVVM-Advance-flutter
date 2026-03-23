@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../model/ride_pref/ride_pref.dart';
 import '../../../theme/theme.dart';
-import '../../../widgets/buttons/bla_icon_button.dart';
-
+import '../../buttons/bla_icon_button.dart';
 
 //
-// Wrap the ride preference picker within a modal 
+// Wrap the ride preference picker within a modal
 //
 class RidePreferenceModal extends StatefulWidget {
   const RidePreferenceModal({super.key, required this.initialPreference});

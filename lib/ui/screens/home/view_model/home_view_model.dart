@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 class HomeViewModel extends ChangeNotifier {
   final BlaRidePreferenceState _ridePreferenceState;
   HomeViewModel(this._ridePreferenceState) {
-    _ridePreferenceState.addListener(_onStateChanged);
-  }
-
-  void _onStateChanged() {
-    notifyListeners();
+    _ridePreferenceState.addListener(notifyListeners);
   }
 
   RidePreference? get selectedPreference =>
@@ -26,7 +22,7 @@ class HomeViewModel extends ChangeNotifier {
   void dispose() {
     // TODO: implement dispose
 
-    _ridePreferenceState.removeListener(_onStateChanged);
+    _ridePreferenceState.removeListener(notifyListeners);
     super.dispose();
   }
 }
