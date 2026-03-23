@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
-import '../../../../services/ride_prefs_service.dart';
 import '../../../../utils/animations_util.dart';
 import '../../../../utils/date_time_utils.dart';
 import '../../../theme/theme.dart';
@@ -112,10 +111,7 @@ class _BlaRidePreferencePickerState extends State<BlaRidePreferencePicker> {
     // 1- Select a arrival
     int? selectedSeatNumber = await Navigator.of(context).push<int>(
       AnimationUtils.createRightToLeftRoute(
-        BlaSeatPicker(
-          initSeats: requestedSeats,
-          maxSeat: RidePrefsService.maxAllowedSeats,
-        ),
+        BlaSeatPicker(initSeats: requestedSeats, maxSeat: 8),
       ),
     );
 

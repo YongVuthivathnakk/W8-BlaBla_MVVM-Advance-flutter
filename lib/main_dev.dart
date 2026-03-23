@@ -5,6 +5,7 @@ import 'package:blabla/data/repositories/ride/ride_repository_mock.dart';
 import 'package:blabla/data/repositories/ride_preference/ride_preference_repository.dart';
 import 'package:blabla/data/repositories/ride_preference/ride_preference_repository_mock.dart';
 import 'package:blabla/main_common.dart';
+import 'package:blabla/ui/state/bla_ride_preference_state.dart';
 import 'package:provider/provider.dart';
 
 List<InheritedProvider> get devProvider => [
@@ -12,6 +13,11 @@ List<InheritedProvider> get devProvider => [
   Provider<RideRepository>(create: (_) => RideRepositoryMock()),
   Provider<RidePreferenceRepository>(
     create: (_) => RidePreferenceRepositoryMock(),
+  ),
+
+  ChangeNotifierProvider(
+    create: (ctx) =>
+        BlaRidePreferenceState(ctx.read<RidePreferenceRepository>()),
   ),
 ];
 

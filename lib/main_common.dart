@@ -7,10 +7,6 @@ void mainCommon(List<InheritedProvider> providers) {
   runApp(MultiProvider(providers: providers, child: BlaBlaApp()));
 }
 
-void main() {
-  runApp(const BlaBlaApp());
-}
-
 class BlaBlaApp extends StatelessWidget {
   const BlaBlaApp({super.key});
 

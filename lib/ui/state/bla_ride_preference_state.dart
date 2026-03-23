@@ -7,6 +7,7 @@ class BlaRidePreferenceState extends ChangeNotifier {
 
   RidePreference? _selectedRidePreference;
   List<RidePreference> _ridePreferenceHistory = [];
+  int maxAllowedSeats = 8;
   bool isLoading = true;
 
   BlaRidePreferenceState(this.ridePreferenceRepository) {
@@ -41,6 +42,5 @@ class BlaRidePreferenceState extends ChangeNotifier {
 
   void _addPreferenceToHistory(RidePreference preference) {
     _ridePreferenceHistory.add(preference);
-    notifyListeners();
   }
 }
